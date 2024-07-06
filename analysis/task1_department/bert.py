@@ -54,7 +54,7 @@ except getopt.error as err:
 
 subject+=(('。具體地點:'+place)+('。行政區:'+area)+('。事項:'+item))
 # print(subject)
-model_path += currentDir+'\\trained_model\\model.pth'
+model_path += currentDir+'/trained_model/model.pth'
 
 # load model
 reload_model = BertForSequenceClassification.from_pretrained("bert-base-chinese", num_labels=15)
