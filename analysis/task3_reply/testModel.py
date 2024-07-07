@@ -69,13 +69,13 @@ def predict(dataStr,TF,MODEL):
 def ModelsPredict(dataStr):
     currentDir = os.path.dirname(os.path.abspath(__file__))
     # 載入模型
-    MODEL_SVM = joblib.load(currentDir+'\model_SVM.pkl')   #訓練測試準確度: 0.6154415392205229
-    MODEL_RandomForest = joblib.load(currentDir+'\model_RandomForest.pkl')     #訓練測試準確度: 0.6715589541193883
-    MODEL_NB_Bernoulli = joblib.load(currentDir+'\model_NB_Bernoulli.pkl')     #訓練測試準確度: 0.6631721756290084
-    MODEL_NB_Multinomial = joblib.load(currentDir+'\model_NB_Multinomial.pkl') #訓練測試準確度: 0.659595461272817
-    MODEL_DecisionTree = joblib.load(currentDir+'\model_DecisionTree.pkl')     #訓練測試準確度: 0.6534287123828317
-    MODEL_NB_Complement = joblib.load(currentDir+'\model_NB_Complement.pkl')   #訓練測試準確度: 0.6154415392205229
-    TF = joblib.load(currentDir+'\\tf.pkl')
+    MODEL_SVM = joblib.load(currentDir+'/model_SVM.pkl')   #訓練測試準確度: 0.6154415392205229
+    MODEL_RandomForest = joblib.load(currentDir+'/model_RandomForest.pkl')     #訓練測試準確度: 0.6715589541193883
+    MODEL_NB_Bernoulli = joblib.load(currentDir+'/model_NB_Bernoulli.pkl')     #訓練測試準確度: 0.6631721756290084
+    MODEL_NB_Multinomial = joblib.load(currentDir+'/model_NB_Multinomial.pkl') #訓練測試準確度: 0.659595461272817
+    MODEL_DecisionTree = joblib.load(currentDir+'/model_DecisionTree.pkl')     #訓練測試準確度: 0.6534287123828317
+    MODEL_NB_Complement = joblib.load(currentDir+'/model_NB_Complement.pkl')   #訓練測試準確度: 0.6154415392205229
+    TF = joblib.load(currentDir+'/tf.pkl')
 
     result = []
     predict_result = predict(dataStr, TF, MODEL_SVM)[0]
