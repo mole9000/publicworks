@@ -1,1 +1,1 @@
-C:\Users\user\anaconda3\envs\publicwork\python.exe
+/bin/python3.7
