@@ -5,7 +5,7 @@
 #pip install tensorflow
 #pip install gdown #好像也沒用到
 from ckiptagger import data_utils, construct_dictionary, WS, POS, NER #POS表https://ckip.iis.sinica.edu.tw/CKIP/paper/poslist.pdf
-CKIPsourse = "C:\\Users\\user\\publicworks_case\\analysis\\task2_importance\\data\\data_CKIP"
+CKIPsourse = "/content/my-web-app/analysis/task2_importance/data/data_CKIP"
 ws = WS(CKIPsourse)
 pos = POS(CKIPsourse)
 ner = NER(CKIPsourse)
