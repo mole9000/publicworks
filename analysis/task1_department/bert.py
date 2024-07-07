@@ -1,6 +1,8 @@
 import getopt, sys, os
+
 import pandas as pd
 import numpy as np
+
 import torch
 from transformers import BertTokenizerFast
 import keras
@@ -14,9 +16,8 @@ from sklearn.metrics import confusion_matrix, ndcg_score, accuracy_score
 # 設置Hugging Face transformers庫的緩存目錄
 os.environ['TRANSFORMERS_CACHE'] = '/tmp/.cache'
 
-# 確保/tmp/.cache目錄存在並且有寫入權限
+# 確保/tmp/.cache目錄存在
 os.makedirs('/tmp/.cache', exist_ok=True)
-os.chmod('/tmp/.cache', 0o777)
 
 currentDir = os.path.dirname(os.path.abspath(__file__))
 my_options = "hmo:"
@@ -28,7 +29,7 @@ place = ''
 model_path = ''
 
 try:
-    args,vals = getopt.getopt(sys.argv[1:], my_options, new_long_options)
+    args, vals = getopt.getopt(sys.argv[1:], my_options, new_long_options)
     for my_Argument, my_Value in args:
         if my_Argument in ("--Subject"):
               subject = my_Value
@@ -103,4 +104,9 @@ map_back = {
     10: '新建工程科', 11: '第一工務大隊', 12: '第二工務大隊', 13: '第三工務大隊', 14: '建築工程科'
 }
 pred = [map_back[i] for i in pred]
+
+# 添加print語句來打印中間結果或提示信息
+print("Intermediate output or debug message")
+
+# 打印最終預測結果
 print(pred)
