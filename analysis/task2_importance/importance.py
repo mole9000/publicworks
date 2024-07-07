@@ -29,9 +29,9 @@ def ana(test_input):
     #    2. 設定 CUDA_VISIBLE_DEVICES 環境變數，例如：os.environ["CUDA_VISIBLE_DEVICES"] = "0"
     #    3. 設定 disable_cuda=False，例如：ws = WS("./data", disable_cuda=False)
     # 使用 CPU：
-    ws = WS(currentDir+"\data\\data_CKIP")
-    pos = POS(currentDir+"\data\\data_CKIP")
-    ner = NER(currentDir+"\data\\data_CKIP")
+    ws = WS(currentDir+"/data/data_CKIP")
+    pos = POS(currentDir+"/data/data_CKIP")
+    ner = NER(currentDir+"/data/data_CKIP")
     
     text_table = pd.DataFrame()
     
@@ -91,10 +91,10 @@ def ana(test_input):
         text_table['word_text'][0] = str(text_table['word_text'][0]).replace(characters[x],"")
         
     # 載入預訓練詞向量模型
-    model = gensim.models.KeyedVectors.load_word2vec_format(currentDir+"\data\\y_360W_cbow_2D_300dim_2020v1.bin", unicode_errors='ignore', binary=True)
+    model = gensim.models.KeyedVectors.load_word2vec_format(currentDir+"/data/y_360W_cbow_2D_300dim_2020v1.bin", unicode_errors='ignore', binary=True)
     
     # 載入k-means的csv檔
-    K_means = pd.read_csv(currentDir+"\data\\alldata_K-means_v3.csv")
+    K_means = pd.read_csv(currentDir+"/data/alldata_K-means_v3.csv")
     
     level_dict ={}
     for char in text_table['word_text'][0].split(','):
@@ -157,11 +157,11 @@ def ana(test_input):
     model_input.fillna(0,inplace=True)
     #print(model_input)
     
-    model0 = lgb.Booster(model_file=currentDir+"\data\\Lgbm_0.txt")
-    model1 = lgb.Booster(model_file=currentDir+"\data\\Lgbm_1.txt")
-    model2 = lgb.Booster(model_file=currentDir+"\data\\Lgbm_2.txt")
-    model3 = lgb.Booster(model_file=currentDir+"\data\\Lgbm_3.txt")
-    model4 = lgb.Booster(model_file=currentDir+"\data\\Lgbm_4.txt")
+    model0 = lgb.Booster(model_file=currentDir+"/data/Lgbm_0.txt")
+    model1 = lgb.Booster(model_file=currentDir+"/data/Lgbm_1.txt")
+    model2 = lgb.Booster(model_file=currentDir+"/data/Lgbm_2.txt")
+    model3 = lgb.Booster(model_file=currentDir+"/data/Lgbm_3.txt")
+    model4 = lgb.Booster(model_file=currentDir+"/data/Lgbm_4.txt")
     
     #print("loading...")
     result = []
