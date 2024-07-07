@@ -30,7 +30,7 @@ def main(text_table):
     emo_count = 0
     emo_score = 0
 
-    with open(currentDir+'\emotion_dict\\ntusd-positive.txt', 'r', encoding="utf-8") as posdict:
+    with open(currentDir+'/emotion_dict/ntusd-positive.txt', 'r', encoding="utf-8") as posdict:
         # print("open postive dictionary")
         for x in posdict:
             line = x.rstrip()
@@ -39,7 +39,7 @@ def main(text_table):
                     # print(key)
                     emo_score += + 1
                     emo_count += 1
-    with open(currentDir+'\emotion_dict\\ntusd-negative.txt', 'r', encoding="utf-8") as negdict:
+    with open(currentDir+'/emotion_dict/ntusd-negative.txt', 'r', encoding="utf-8") as negdict:
         # print("open negative dictionary")
         for y in negdict:
             line = y.rstrip()
