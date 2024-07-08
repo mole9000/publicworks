@@ -32,8 +32,6 @@ if(isset($_POST['contenttext'])){
   //==== 科室分類
   $command = $path_python.' '.__DIR__."/analysis/task1_department/bert.py --Subject ".$input_escaped." 2>/tmp/error_ana_department.txt";
   $output = exec($command, $output2, $res);
-  print('hello world /n');
-  print_r($output);
   $output = mb_convert_encoding($output, 'UTF-8', "BIG5");
   $output_department = $output; // 如上陣列
   $state_department = $res;
