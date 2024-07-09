@@ -18,7 +18,7 @@ if(isset($_POST['contenttext'])){
   //==== 情緒分析
   $command = $path_python.' '.__DIR__.'/analysis/task2_emotion/emotion.py '.$input_escaped.' 2>/tmp/error_ana_emotion.txt';
   $output = exec($command, $output2, $res);
-  $output = mb_convert_encoding($output, 'UTF-8', "BIG5");
+  //$output = mb_convert_encoding($output, 'UTF-8', "BIG5");
   //echo $output.'<br/>外部程序運行是否成功:'.$res.'(0代表成功,1代表失敗)<br/><br/><br/>';
   $output_emotion = (float)$output; // 範圍-1~+1: 小於0負面 大於0正面
   $state_emotion = $res;
