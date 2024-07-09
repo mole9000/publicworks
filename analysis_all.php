@@ -19,15 +19,13 @@ if(isset($_POST['contenttext'])){
   $command = $path_python.' '.__DIR__.'/analysis/task2_emotion/emotion.py '.$input_escaped.' 2>/tmp/error_ana_emotion.txt';
   $output = exec($command, $output2, $res);
   $output = mb_convert_encoding($output, 'UTF-8', "BIG5");
-  //echo $output.'<br/>外部程序運行是否成功:'.$res.'(0代表成功,1代表失敗)<br/><br/><br/>';
   $output_emotion = (float)$output; // 範圍-1~+1: 小於0負面 大於0正面
   $state_emotion = $res;
   
   //==== 重要性分析
   $command = $path_python.' '.__DIR__.'/analysis/task2_importance/importance.py '.$input_escaped.' 2>/tmp/error_ana_importance.txt';
   $output = exec($command, $output2, $res);
-  //$output = mb_convert_encoding($output, 'UTF-8', "BIG5");
-  //echo $output.'<br/>外部程序運行是否成功:'.$res.'(0代表成功,1代表失敗)<br/><br/><br/>';
+  $output = mb_convert_encoding($output, 'UTF-8', "BIG5");
   $output_importance = (string)$output; // 危急案件 or 一般案件
   $state_importance = $res;
   
@@ -35,15 +33,6 @@ if(isset($_POST['contenttext'])){
   $command = $path_python.' '.__DIR__."/analysis/task1_department/bert.py --Subject ".$input_escaped." 2>/tmp/error_ana_department.txt";
   $output = exec($command, $output2, $res);
   $output = mb_convert_encoding($output, 'UTF-8', "BIG5");
-  echo $output.'<br/>外部程序運行是否成功:'.$res.'(0代表成功,1代表失敗)<br/><br/><br/>';
-  if ($res !== 0) {
-    echo "========================depart=========================\n"
-    echo "Command failed with status code: $res\n";
-    foreach ($output2 as $line) {
-        echo "$line\n";
-    }
-    echo "========================depart=========================\n"
-  }	
   $output_department = $output; // 如上陣列
   $state_department = $res;
   
@@ -51,7 +40,6 @@ if(isset($_POST['contenttext'])){
   $command = $path_python.' '.__DIR__.'/analysis/task3_reply/testModel.py '.$input_escaped.' 2>/tmp/error_ana_reply.txt';
   $output = exec($command, $output2, $res);
   $output = mb_convert_encoding($output, 'UTF-8', "BIG5");
-  //echo $output.'<br/>外部程序運行是否成功:'.$res.'(0代表成功,1代表失敗)<br/><br/><br/>';
   $output_reply = (string)$output; // 如上陣列
   $state_reply = $res;
 }
