@@ -12,14 +12,13 @@ from torch.utils.data import TensorDataset, DataLoader, RandomSampler, Sequentia
 from transformers import BertForSequenceClassification
 from tqdm import tqdm, trange
 from sklearn.metrics import confusion_matrix, ndcg_score, accuracy_score
-
-# 設置Hugging Face transformers庫的緩存目錄
-os.environ['TRANSFORMERS_CACHE'] = '/tmp/.cache'
-
-# 確保/tmp/.cache目錄存在
-os.makedirs('/tmp/.cache', exist_ok=True)
-
 currentDir = os.path.dirname(os.path.abspath(__file__))
+# 設置Hugging Face transformers庫的緩存目錄
+os.environ['TRANSFORMERS_CACHE'] = '/var/www/html/'
+
+# 確保目錄存在
+os.makedirs('/var/www/html/', exist_ok=True)
+
 my_options = "hmo:"
 new_long_options = ["Subject=", "Item=", "Area=","Place=","path="]
 subject = ''
