@@ -6,54 +6,67 @@ $filename = "ini.txt";    $fp = fopen($filename, "r");   $path_python = fread($f
 //$path_python = 'C:/Users/user/AppData/Local/Programs/Python/Python36/python.exe';
 
 if(isset($_POST['contenttext'])){
-  $input = $_POST['contenttext'];
-  $input = preg_replace('/\s+/', '，', $input); 
-  
-  // 設置Python執行器的路徑
-  $path_python = '/usr/bin/python3';
+	$input = $_POST['contenttext'];
+	#$input = "派工,安南區安通路六段上，靠近安明路二段的路中有路樹倒塌，請派員前往清除，煩卓處，承辦若不清楚，可聯繫民眾。";  //第一工務,皮球,工程企劃 | 危急,情緒 | 路樹傾倒,9盞以下
+	#$input = "派工,安南區安通路六段上，請派員前往清除，承辦若不清楚，可聯繫民眾。";  //皮球,第一工務,養護工程 | 一般 | 9盞以下,路樹傾倒
+	#$input = "北區公園北路5號附近，涼亭角落的地方時常有一位遊民在那邊當自己的家，遊民在那邊喝酒還會把玻璃酒瓶打碎在步道上，恐容易造成他人危險，遊民還會把自己的棉被堵在小運河造成堵塞，通報員警前往也沒有用，一直浪費資源，請局處強制安置遊民，也請工務局把涼亭的石桌石椅拆除不要讓遊民在那邊喝酒，煩請相關單位卓處 承辦可聯繫民眾，並請結案時將處理結果電話回覆民眾"; //公園,皮球,第一工務 | 危急,情緒 | 其他
+	#$input = "北區公園北路5號附近，煩請相關單位卓處 承辦可聯繫民眾，並請結案時將處理結果電話回覆民眾";  //皮球,公園管理,第一工務 | 一般 | 其他,...一些
+	$input = preg_replace('/\s+/', '，', $input); 
+	
+	//==== 情緒分析
+	$command = $path_python.' '.__DIR__.'/analysis/task2_emotion/emotion.py '.$input. ' 2>error_ana_emotion.txt';
+	//echo $command."<br/><br/>";
+	$output = exec($command, $output2,$res);
+	$output = mb_convert_encoding($output, 'UTF-8', "BIG5");
+	echo $output.'<br/>外部程序運行是否成功:'.$res.'(0代表成功,1代表失敗)<br/><br/><br/>';
+	//eval("\$output = (float)$output;"); //ex: -0.54
+    $output = (float)$output;
+	$output_emotion = $output; // 範圍-1~+1: 小於0負面 大於0正面
+	$state_emotion = $res;
+	
+	//==== 重要性分析
+	$command = $path_python.' '.__DIR__.'/analysis/task2_importance/importance.py '.$input. ' 2>error_ana_importance.txt';
+	//echo $command."<br/><br/>";
+	$output = exec($command, $output2,$res);
+	$output = mb_convert_encoding($output, 'UTF-8', "BIG5");
+	echo $output.'<br/>外部程序運行是否成功:'.$res.'(0代表成功,1代表失敗)<br/><br/><br/>';
+	//eval("\$output = '$output';"); //ex: 危急案件
+    $output = (string)$output;
+	$output_importance = $output; // 危急案件 or 一般案件
+	$state_importance = $res;
+	
+	
+	//==== 科室分類
+	$command = $path_python.' '.__DIR__."/analysis/task1_department/bert.py --Subject '".$input. "' 2>error_ana_department.txt";
+	//echo $command."<br/><br/>";
+	$output = exec($command, $output2,$res);
+	$output = mb_convert_encoding($output, 'UTF-8', "BIG5");
+	echo $output.'<br/>外部程序運行是否成功:'.$res.'(0代表成功,1代表失敗)<br/><br/><br/>';
+    if ($res !== 0) {
+        echo "========================depart=========================\n"
+        echo "Command failed with status code: $res\n";
+        foreach ($output2 as $line) {
+            echo "$line\n";
+        }
+        echo "========================depart=========================\n"
+      }	
+	eval("\$output = $output;"); //ex: ['皮球案件', '第一工務大隊', '公園管理科']
+    $output = $output;
+	$output_department = $output; // 如上陣列
+	$state_department = $res;
+	
+	
+	//==== 預擬回覆
+	$command = $path_python.' '.__DIR__.'/analysis/task3_reply/testModel.py '.$input. ' 2>error_ana_reply.txt';
+	//echo $command."<br/><br/>";
+	$output = exec($command, $output2,$res);
+	$output = mb_convert_encoding($output, 'UTF-8', "BIG5");
+	echo $output.'<br/>外部程序運行是否成功:'.$res.'(0代表成功,1代表失敗)<br/><br/><br/>';
+	//eval("\$output = $output;"); //ex: ['61_5', '61_6']
+    $output = (string)$output;
+	$output_reply = $output; // 如上陣列
+	$state_reply = $res;
 
-  // 確保輸入已被正確轉義
-  $input_escaped = escapeshellarg($input);
-  
-  //==== 情緒分析
-  $command = $path_python.' '.__DIR__.'/analysis/task2_emotion/emotion.py '.$input_escaped.' 2>/tmp/error_ana_emotion.txt';
-  $output = exec($command, $output2, $res);
-  $output = mb_convert_encoding($output, 'UTF-8', "BIG5");
-  //echo $output.'<br/>外部程序運行是否成功:'.$res.'(0代表成功,1代表失敗)<br/><br/><br/>';
-  $output_emotion = (float)$output; // 範圍-1~+1: 小於0負面 大於0正面
-  $state_emotion = $res;
-  
-  //==== 重要性分析
-  $command = $path_python.' '.__DIR__.'/analysis/task2_importance/importance.py '.$input_escaped.' 2>/tmp/error_ana_importance.txt';
-  $output = exec($command, $output2, $res);
-  //$output = mb_convert_encoding($output, 'UTF-8', "BIG5");
-  //echo $output.'<br/>外部程序運行是否成功:'.$res.'(0代表成功,1代表失敗)<br/><br/><br/>';
-  $output_importance = (string)$output; // 危急案件 or 一般案件
-  $state_importance = $res;
-  
-  //==== 科室分類
-  $command = $path_python.' '.__DIR__."/analysis/task1_department/bert.py --Subject ".$input_escaped." 2>/tmp/error_ana_department.txt";
-  $output = exec($command, $output2, $res);
-  $output = mb_convert_encoding($output, 'UTF-8', "BIG5");
-  echo $output.'<br/>外部程序運行是否成功:'.$res.'(0代表成功,1代表失敗)<br/><br/><br/>';
-  if ($res !== 0) {
-    echo "========================depart=========================\n"
-    echo "Command failed with status code: $res\n";
-    foreach ($output2 as $line) {
-        echo "$line\n";
-    }
-    echo "========================depart=========================\n"
-  }	
-  $output_department = $output; // 如上陣列
-  $state_department = $res;
-  
-  //==== 預擬回覆
-  $command = $path_python.' '.__DIR__.'/analysis/task3_reply/testModel.py '.$input_escaped.' 2>/tmp/error_ana_reply.txt';
-  $output = exec($command, $output2, $res);
-  $output = mb_convert_encoding($output, 'UTF-8', "BIG5");
-  //echo $output.'<br/>外部程序運行是否成功:'.$res.'(0代表成功,1代表失敗)<br/><br/><br/>';
-  $output_reply = (string)$output; // 如上陣列
-  $state_reply = $res;
 }
 
 $subitemIDNameDict = array();
