@@ -8,9 +8,13 @@ $filename = "ini.txt";    $fp = fopen($filename, "r");   $path_python = fread($f
 if(isset($_POST['contenttext'])){
   $input = $_POST['contenttext'];
   $input = preg_replace('/\s+/', '，', $input); 
-  
+  $cache_dir = '/content/transformers_cache';
+  putenv("TRANSFORMERS_CACHE=$cache_dir");
+  if (!file_exists($cache_dir)) {
+    mkdir($cache_dir, 0777, true);
+  }
   // 設置Python執行器的路徑
-  $path_python = '/usr/bin/python3';
+  $path_python = '/usr/bin/python3.7';
 
   // 確保輸入已被正確轉義
   $input_escaped = escapeshellarg($input);
@@ -25,16 +29,23 @@ if(isset($_POST['contenttext'])){
   //==== 重要性分析
   $command = $path_python.' '.__DIR__.'/analysis/task2_importance/importance.py '.$input_escaped.' 2>/tmp/error_ana_importance.txt';
   $output = exec($command, $output2, $res);
-  $output = mb_convert_encoding($output, 'UTF-8', "BIG5");
+  //$output = mb_convert_encoding($output, 'UTF-8', "BIG5");
   $output_importance = (string)$output; // 危急案件 or 一般案件
   $state_importance = $res;
   
   //==== 科室分類
   $command = $path_python.' '.__DIR__."/analysis/task1_department/bert.py --Subject ".$input_escaped." 2>/tmp/error_ana_department.txt";
   $output = exec($command, $output2, $res);
-  $output = mb_convert_encoding($output, 'UTF-8', "BIG5");
+  //$output = mb_convert_encoding($output, 'UTF-8', "BIG5");
   $output_department = $output; // 如上陣列
   $state_department = $res;
+  echo "ttttest\n";
+  if ($res !== 0) {
+    echo "task1_department Command failed with status code: $res\n";
+    foreach ($output2 as $line) {
+        echo "$line\n";
+    }
+  }
   
   //==== 預擬回覆
   $command = $path_python.' '.__DIR__.'/analysis/task3_reply/testModel.py '.$input_escaped.' 2>/tmp/error_ana_reply.txt';
