@@ -39,13 +39,6 @@ if(isset($_POST['contenttext'])){
   //$output = mb_convert_encoding($output, 'UTF-8', "BIG5");
   $output_department = $output; // 如上陣列
   $state_department = $res;
-  echo "ttttest\n";
-  if ($res !== 0) {
-    echo "task1_department Command failed with status code: $res\n";
-    foreach ($output2 as $line) {
-        echo "$line\n";
-    }
-  }
   
   //==== 預擬回覆
   $command = $path_python.' '.__DIR__.'/analysis/task3_reply/testModel.py '.$input_escaped.' 2>/tmp/error_ana_reply.txt';
