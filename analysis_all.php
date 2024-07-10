@@ -8,7 +8,7 @@ $filename = "ini.txt";    $fp = fopen($filename, "r");   $path_python = fread($f
 if(isset($_POST['contenttext'])){
   $input = $_POST['contenttext'];
   $input = preg_replace('/\s+/', '，', $input); 
-  $cache_dir = '/content/transformers_cache';
+  $cache_dir = '/tmp/transformers_cache';
   putenv("TRANSFORMERS_CACHE=$cache_dir");
   if (!file_exists($cache_dir)) {
     mkdir($cache_dir, 0777, true);
