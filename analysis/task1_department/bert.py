@@ -14,10 +14,10 @@ from tqdm import tqdm, trange
 from sklearn.metrics import confusion_matrix, ndcg_score, accuracy_score
 currentDir = os.path.dirname(os.path.abspath(__file__))
 # 設置Hugging Face transformers庫的緩存目錄
-os.environ['TRANSFORMERS_CACHE'] = '/var/www/html/'
+os.environ['TRANSFORMERS_CACHE'] = '/tmp/transformers_cache'
 
 # 確保目錄存在
-os.makedirs('/var/www/html/', exist_ok=True)
+os.makedirs('/tmp/transformers_cache', exist_ok=True)
 
 my_options = "hmo:"
 new_long_options = ["Subject=", "Item=", "Area=","Place=","path="]
