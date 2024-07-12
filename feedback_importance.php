@@ -1,26 +1,23 @@
 <?php
 if(isset($_POST['content'])){
-	
-	$feedback = array();
-	if(isset($_POST['checkbox'])){array_push($feedback, "危急");}
-	if(isset($_POST['checkbox1'])){array_push($feedback, "情緒");}
-	if(isset($_POST['checkbox2'])){array_push($feedback, "重複");}
-	//print_r($feedback);
-	
-	$timeStr = date("Y_m_d_H_i_s")."-".strtotime("now");
-	//echo $timeStr;
-	$checkList = array();
-	$saveContent = implode(",",$feedback)."\r\n";
-	$saveContent .= $_POST['content'];
-	$fileSize = file_put_contents("/tmp/feedback/importance/".$timeStr.".txt", $saveContent);
+    
+    $feedback = array();
+    if(isset($_POST['checkbox'])){array_push($feedback, "危急");}
+    if(isset($_POST['checkbox1'])){array_push($feedback, "情緒");}
+    if(isset($_POST['checkbox2'])){array_push($feedback, "重複");}
+    
+    $feedback_type = implode(",", $feedback);
+    $content = escapeshellarg($_POST['content']);
+    $command = "/usr/bin/python3.7 ".__DIR__."/update_csv.py 'importance' $content $feedback_type";
+    $output = shell_exec($command);
 ?>
-	<link href="layui-v2.5.7/layui/css/layui.css" rel="stylesheet" type="text/css"/>
+    <link href="layui-v2.5.7/layui/css/layui.css" rel="stylesheet" type="text/css"/>
     <script src="js/jquery-3.1.1.js"></script>
-	<script type="text/javascript" src="layer-v3.1.0/layer/layer.js"></script>
-	<script type="text/javascript" src="layui-v2.5.7/layui/layui.js"></script>
-	<script>
-	layer.open({title: '分析反饋',content: '反饋完成，已反饋到系統後端！<br/>後續將由專業人員調適分析模型。',btn: ['確定']});
-	</script>
+    <script type="text/javascript" src="layer-v3.1.0/layer/layer.js"></script>
+    <script type="text/javascript" src="layui-v2.5.7/layui/layui.js"></script>
+    <script>
+    layer.open({title: '分析反饋',content: '反饋完成，已反饋到系統後端！<br/>後續將由專業人員調適分析模型。',btn: ['確定']});
+    </script>
 <?php
 }
 ?>
