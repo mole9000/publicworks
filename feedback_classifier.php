@@ -4,11 +4,6 @@ if(isset($_POST['department']) && isset($_POST['content'])){
     $content = escapeshellarg($_POST['content']);
     $command = "/usr/bin/python3.7 ".__DIR__."/update_csv.py $department $content";
     $output = shell_exec($command);
-    if ($output === null) {
-        echo "Python脚本执行失败";
-    } else {
-        echo "数据已成功添加到CSV文件";
-    }
 ?>
 	<link href="layui-v2.5.7/layui/css/layui.css" rel="stylesheet" type="text/css"/>
     <script src="js/jquery-3.1.1.js"></script>
