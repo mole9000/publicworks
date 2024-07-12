@@ -1,19 +1,19 @@
 <?php
-if(isset($_POST['item'])&&isset($_POST['subitem'])){
-	
-	$timeStr = date("Y_m_d_H_i_s")."-".strtotime("now");
-	//echo $timeStr;
-	$saveContent = $_POST['item']."-".$_POST['subitem']."\r\n";
-	$saveContent .= $_POST['content'];
-	$fileSize = file_put_contents("/tmp/feedback/reply/".$timeStr.".txt", $saveContent);
+if(isset($_POST['item']) && isset($_POST['subitem']) && isset($_POST['content'])){
+    
+    $item = escapeshellarg($_POST['item']);
+    $subitem = escapeshellarg($_POST['subitem']);
+    $content = escapeshellarg($_POST['content']);
+    $command = "/usr/bin/python3.7 ".__DIR__."/update_csv.py 'reply' $content $item $subitem";
+    $output = shell_exec($command);
 ?>
-	<link href="layui-v2.5.7/layui/css/layui.css" rel="stylesheet" type="text/css"/>
+    <link href="layui-v2.5.7/layui/css/layui.css" rel="stylesheet" type="text/css"/>
     <script src="js/jquery-3.1.1.js"></script>
-	<script type="text/javascript" src="layer-v3.1.0/layer/layer.js"></script>
-	<script type="text/javascript" src="layui-v2.5.7/layui/layui.js"></script>
-	<script>
-	layer.open({title: '分析反饋',content: '反饋完成，已反饋到系統後端！<br/>後續將由專業人員調適分析模型。',btn: ['確定']});
-	</script>
+    <script type="text/javascript" src="layer-v3.1.0/layer/layer.js"></script>
+    <script type="text/javascript" src="layui-v2.5.7/layui/layui.js"></script>
+    <script>
+    layer.open({title: '分析反饋',content: '反饋完成，已反饋到系統後端！<br/>後續將由專業人員調適分析模型。',btn: ['確定']});
+    </script>
 <?php
 }
 ?>
