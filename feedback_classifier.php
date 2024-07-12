@@ -1,10 +1,14 @@
 <?php
-if(isset($_POST['department'])){
-	$timeStr = date("Y_m_d_H_i_s")."-".strtotime("now");
-	//echo $timeStr;
-	$saveContent = $_POST['department']."\r\n";
-	$saveContent .= $_POST['content'];
-	$fileSize = file_put_contents("/tmp/feedback/classifier".$timeStr.".txt", $saveContent);
+if(isset($_POST['department']) && isset($_POST['content'])){
+    $department = escapeshellarg($_POST['department']);
+    $content = escapeshellarg($_POST['content']);
+    $command = "/usr/bin/python3.7 ".__DIR__."/update_csv.py $department $content";
+    $output = shell_exec($command);
+    if ($output === null) {
+        echo "Python脚本执行失败";
+    } else {
+        echo "数据已成功添加到CSV文件";
+    }
 ?>
 	<link href="layui-v2.5.7/layui/css/layui.css" rel="stylesheet" type="text/css"/>
     <script src="js/jquery-3.1.1.js"></script>
