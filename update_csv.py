@@ -7,7 +7,7 @@ import pandas as pd
 import io
 
 def update_csv(department, content):
-    SERVICE_ACCOUNT_FILE = '/content/publicwork-cdfaf549b32b.json'  # 替換為您的credentials.json文件路徑
+    SERVICE_ACCOUNT_FILE = '/var/www/html/publicwork-cdfaf549b32b.json'  # 替換為您的credentials.json文件路徑
     SCOPES = ['https://www.googleapis.com/auth/drive']
 
     credentials = service_account.Credentials.from_service_account_file(
