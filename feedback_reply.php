@@ -5,7 +5,7 @@ if(isset($_POST['item'])&&isset($_POST['subitem'])){
 	//echo $timeStr;
 	$saveContent = $_POST['item']."-".$_POST['subitem']."\r\n";
 	$saveContent .= $_POST['content'];
-	$fileSize = file_put_contents("feedback/reply/".$timeStr.".txt", $saveContent);
+	$fileSize = file_put_contents("/tmp/feedback/reply/".$timeStr.".txt", $saveContent);
 ?>
 	<link href="layui-v2.5.7/layui/css/layui.css" rel="stylesheet" type="text/css"/>
     <script src="js/jquery-3.1.1.js"></script>
