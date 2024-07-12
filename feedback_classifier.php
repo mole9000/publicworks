@@ -1,11 +1,9 @@
 <?php
 if(isset($_POST['department'])){
-	
 	$timeStr = date("Y_m_d_H_i_s")."-".strtotime("now");
 	//echo $timeStr;
-	$saveContent = "陳情內容：\r\n" . $_POST['content'] . "\r\n";
-    	$saveContent .= "分析結果：\r\n" . $_POST['result'] . "\r\n"; // 假设POST请求中有'result'字段
-    	$saveContent .= "反饋建議：\r\n" . $_POST['department'] . "\r\n";
+	$saveContent = $_POST['department']."\r\n";
+	$saveContent .= $_POST['content'];
 	$fileSize = file_put_contents("/tmp/feedback/classifier".$timeStr.".txt", $saveContent);
 ?>
 	<link href="layui-v2.5.7/layui/css/layui.css" rel="stylesheet" type="text/css"/>
