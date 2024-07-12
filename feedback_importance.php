@@ -12,7 +12,7 @@ if(isset($_POST['content'])){
 	$checkList = array();
 	$saveContent = implode(",",$feedback)."\r\n";
 	$saveContent .= $_POST['content'];
-	$fileSize = file_put_contents("feedback/importance/".$timeStr.".txt", $saveContent);
+	$fileSize = file_put_contents("/tmp/feedback/importance/".$timeStr.".txt", $saveContent);
 ?>
 	<link href="layui-v2.5.7/layui/css/layui.css" rel="stylesheet" type="text/css"/>
     <script src="js/jquery-3.1.1.js"></script>
