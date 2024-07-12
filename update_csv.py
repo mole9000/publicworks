@@ -15,7 +15,7 @@ def update_csv(department, content):
 
     service = build('drive', 'v3', credentials=credentials)
 
-    FILE_ID = 'your_csv_file_id'  # 替換為您的CSV文件ID
+    FILE_ID = '1GT25Tye8ToxqE3rBqWs5v3Pc1MYwtXdtplDoeb76XJ0'  # 替換為您的CSV文件ID
 
     request = service.files().export_media(fileId=FILE_ID, mimeType='text/csv')
     fh = io.BytesIO()
