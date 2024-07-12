@@ -2,7 +2,7 @@
 if(isset($_POST['department']) && isset($_POST['content'])){
     $department = escapeshellarg($_POST['department']);
     $content = escapeshellarg($_POST['content']);
-    $command = "/usr/bin/python3.7 ".__DIR__."/update_csv.py $department $content";
+    $command = "/usr/bin/python3.7 ".__DIR__."/update_csv.py 'classifier' $department $content";
     $output = shell_exec($command);
 ?>
 	<link href="layui-v2.5.7/layui/css/layui.css" rel="stylesheet" type="text/css"/>
