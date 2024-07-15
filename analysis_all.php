@@ -19,7 +19,7 @@ if(isset($_POST['contenttext'])){
   // 確保輸入已被正確轉義
   $input_escaped = escapeshellarg($input);
   
-  // //==== 情緒分析
+  //==== 情緒分析
 	// $command = $path_python.' '.__DIR__.'/analysis/task2_emotion/emotion.py '.$input. ' 2>error_ana_emotion.txt';
 	// //echo $command."<br/><br/>";
 	// $output = exec($command, $output2,$res);
@@ -38,20 +38,15 @@ if(isset($_POST['contenttext'])){
 	// eval("\$output = '$output';"); //ex: 危急案件
 	// $output_importance = $output; // 危急案件 or 一般案件
 	// $state_importance = $res;
-	
-	
-	//==== 科室分類
-	$command = $path_python.' '.__DIR__."/analysis/task1_department/bert.py --Subject '".$input. "' 2>error_ana_department.txt";
-	//echo $command."<br/><br/>";
-	$output = exec($command, $output2,$res);
-	$output = mb_convert_encoding($output, 'UTF-8', "BIG5");
-	//echo $output.'<br/>外部程序運行是否成功:'.$res.'(0代表成功,1代表失敗)<br/><br/><br/>';
-	eval("\$output = $output;"); //ex: ['皮球案件', '第一工務大隊', '公園管理科']
-	$output_department = $output; // 如上陣列
-	$state_department = $res;
-	
-	
-	// //==== 預擬回覆
+  
+  //==== 科室分類
+  $command = $path_python.' '.__DIR__."/analysis/task1_department/bert.py --Subject ".$input_escaped." 2>/tmp/error_ana_department.txt";
+  $output = exec($command, $output2, $res);
+  //$output = mb_convert_encoding($output, 'UTF-8', "BIG5");
+  $output_department = $output; // 如上陣列
+  $state_department = $res;
+  
+  //==== 預擬回覆
 	// $command = $path_python.' '.__DIR__.'/analysis/task3_reply/testModel.py '.$input. ' 2>error_ana_reply.txt';
 	// //echo $command."<br/><br/>";
 	// $output = exec($command, $output2,$res);
