@@ -19,33 +19,47 @@ if(isset($_POST['contenttext'])){
   // 確保輸入已被正確轉義
   $input_escaped = escapeshellarg($input);
   
-  //==== 情緒分析
-  $command = $path_python.' '.__DIR__.'/analysis/task2_emotion/emotion.py '.$input_escaped.' 2>/tmp/error_ana_emotion.txt';
-  $output = exec($command, $output2, $res);
-  $output = mb_convert_encoding($output, 'UTF-8', "BIG5");
-  $output_emotion = (float)$output; // 範圍-1~+1: 小於0負面 大於0正面
-  $state_emotion = $res;
-  
-  //==== 重要性分析
-  $command = $path_python.' '.__DIR__.'/analysis/task2_importance/importance.py '.$input_escaped.' 2>/tmp/error_ana_importance.txt';
-  $output = exec($command, $output2, $res);
-  //$output = mb_convert_encoding($output, 'UTF-8', "BIG5");
-  $output_importance = (string)$output; // 危急案件 or 一般案件
-  $state_importance = $res;
-  
-  //==== 科室分類
-  $command = $path_python.' '.__DIR__."/analysis/task1_department/bert.py --Subject ".$input_escaped." 2>/tmp/error_ana_department.txt";
-  $output = exec($command, $output2, $res);
-  //$output = mb_convert_encoding($output, 'UTF-8', "BIG5");
-  $output_department = $output; // 如上陣列
-  $state_department = $res;
-  
-  //==== 預擬回覆
-  $command = $path_python.' '.__DIR__.'/analysis/task3_reply/testModel.py '.$input_escaped.' 2>/tmp/error_ana_reply.txt';
-  $output = exec($command, $output2, $res);
-  $output = mb_convert_encoding($output, 'UTF-8', "BIG5");
-  $output_reply = (string)$output; // 如上陣列
-  $state_reply = $res;
+  // //==== 情緒分析
+	// $command = $path_python.' '.__DIR__.'/analysis/task2_emotion/emotion.py '.$input. ' 2>error_ana_emotion.txt';
+	// //echo $command."<br/><br/>";
+	// $output = exec($command, $output2,$res);
+	// $output = mb_convert_encoding($output, 'UTF-8', "BIG5");
+	// //echo $output.'<br/>外部程序運行是否成功:'.$res.'(0代表成功,1代表失敗)<br/><br/><br/>';
+	// eval("\$output = (float)$output;"); //ex: -0.54
+	// $output_emotion = $output; // 範圍-1~+1: 小於0負面 大於0正面
+	// $state_emotion = $res;
+	
+	// //==== 重要性分析
+	// $command = $path_python.' '.__DIR__.'/analysis/task2_importance/importance.py '.$input. ' 2>error_ana_importance.txt';
+	// //echo $command."<br/><br/>";
+	// $output = exec($command, $output2,$res);
+	// $output = mb_convert_encoding($output, 'UTF-8', "BIG5");
+	// //echo $output.'<br/>外部程序運行是否成功:'.$res.'(0代表成功,1代表失敗)<br/><br/><br/>';
+	// eval("\$output = '$output';"); //ex: 危急案件
+	// $output_importance = $output; // 危急案件 or 一般案件
+	// $state_importance = $res;
+	
+	
+	//==== 科室分類
+	$command = $path_python.' '.__DIR__."/analysis/task1_department/bert.py --Subject '".$input. "' 2>error_ana_department.txt";
+	//echo $command."<br/><br/>";
+	$output = exec($command, $output2,$res);
+	$output = mb_convert_encoding($output, 'UTF-8', "BIG5");
+	//echo $output.'<br/>外部程序運行是否成功:'.$res.'(0代表成功,1代表失敗)<br/><br/><br/>';
+	eval("\$output = $output;"); //ex: ['皮球案件', '第一工務大隊', '公園管理科']
+	$output_department = $output; // 如上陣列
+	$state_department = $res;
+	
+	
+	// //==== 預擬回覆
+	// $command = $path_python.' '.__DIR__.'/analysis/task3_reply/testModel.py '.$input. ' 2>error_ana_reply.txt';
+	// //echo $command."<br/><br/>";
+	// $output = exec($command, $output2,$res);
+	// $output = mb_convert_encoding($output, 'UTF-8', "BIG5");
+	// //echo $output.'<br/>外部程序運行是否成功:'.$res.'(0代表成功,1代表失敗)<br/><br/><br/>';
+	// eval("\$output = $output;"); //ex: ['61_5', '61_6']
+	// $output_reply = $output; // 如上陣列
+	// $state_reply = $res;
 }
 
 $subitemIDNameDict = array();
